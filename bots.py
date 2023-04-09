@@ -4,8 +4,8 @@
 # 6 | 7 | 8
 
 # Empty: 0
-# X: 1
-# O: 2
+# Player (X): 1
+# Computer (O): -1
 
 import random
 from termcolor import colored
@@ -18,7 +18,7 @@ class Random: # Makes a random move
                 emptyTiles.append(tile)
         
         randomTile = random.choice(emptyTiles)
-        board[randomTile] = 2
+        board[randomTile] = -1
         return board
     
 class Simple: # Wins if possible, tries to prevent the player from winning
@@ -31,82 +31,54 @@ class Simple: # Wins if possible, tries to prevent the player from winning
                 emptyTiles.append(i)
             elif tile == 1:
                 playerTiles.append(i)
-            elif tile == 2:
+            elif tile == -1:
                 botTiles.append(i)
         for tile in emptyTiles:
             newBoard = board.copy()
-            newBoard[tile] = 2
+            newBoard[tile] = -1
             if CheckBoard(newBoard) == 1:
-                board[tile] = 2
+                board[tile] = -1
                 return board
             newBoard[tile] = 1
             if CheckBoard(newBoard) == 1:
-                board[tile] = 2
+                board[tile] = -1
                 return board
         randomTile = random.choice(emptyTiles)
-        board[randomTile] = 2
+        board[randomTile] = -1
         return board
 
 class Perfect:
     def Turn(self, board):
-        playerTiles = []
-        botTiles = []
-        emptyTiles = []
-        for tile in board:
-            if tile == 1:
-                playerTiles.append(tile)
-            elif tile == 2:
-                botTiles.append(tile)
-            else:
-                emptyTiles.append(tile)
-        calculation = self.CalculateTurn(self, board, playerTiles, botTiles, emptyTiles)
+        calculation = self.Minimax(self, board, -1)
         print(calculation)
-        if calculation[0] in [1, 2]:
-            board[calculation[1]] = 2
-            return board
-        else:
-            randomTile = random.choice(emptyTiles)
-            board[randomTile] == 2
-            return board
+        board[calculation[1]] = -1
+        return board
+    
+    def Minimax(self, board, player):
+        boardState = CheckBoard(board)
+        if boardState == 1:
+            if player == 1:
+                return 1, 9
+            return -1, 9
+        if boardState == -1:
+            if player == 1:
+                return -1, 9
+            return 1, 9
 
-    def CalculateTurn(self, board, playerTiles, botTiles, emptyTiles):
-        botTurn = len(playerTiles) > len(botTiles)
-        outcomes = []
+        move = -1
+        score = -2
 
-        if len(emptyTiles) == 0 and botTurn:
+        for i in range(9):
+            if board[i] == 0:
+                board[i] = player
+                moveScore = - self.Minimax(self, board, -player)[0]
+                board[i] = 0
+                if moveScore > score:
+                    score = moveScore
+                    move = i
+        if move == -1:
             return 0, 9
-        if len(emptyTiles) == 1 and not botTurn:
-            return 1, emptyTiles[0]
-        for tile in emptyTiles:
-            newBoard = board.copy()
-            newBotTiles = botTiles.copy()
-            newPlayerTiles = playerTiles.copy()
-            newEmptyTiles = emptyTiles.copy()
-
-            newBoard[tile] = int(botTurn) + 1
-            newEmptyTiles.remove(tile)
-            if botTurn:
-                newBotTiles.append(tile)
-            else:
-                newPlayerTiles.append(tile)
-            calculation = self.CalculateTurn(self, newBoard, newPlayerTiles, newBotTiles, newEmptyTiles)
-            outcomes.append(calculation[0])
-            newEmptyTiles.append(tile)
-            try:
-                newBotTiles.remove(tile)
-            except:
-                newPlayerTiles.remove(tile)
-            newBoard[tile] = 0
-            if botTurn and calculation[0] == 1:
-                return 1, calculation[1]
-            if not botTurn and calculation[0] == 0:
-                return 0, 9
-        if 2 in outcomes:
-            return 2, emptyTiles[outcomes.index(2)]
-        if botTurn:
-            return 0, 9
-        else:
-            return 1, random.choice(emptyTiles)
+        return score, move
 
 def CheckBoard(board): # Check if the game is won or if it's a tie
     # Check if the game is won
@@ -116,7 +88,7 @@ def CheckBoard(board): # Check if the game is won or if it's a tie
         for field in solution:
             fields.append(board[field])
         if len(list(dict.fromkeys(fields))) == 1 and fields[0] != 0:
-            return 1
+            return fields[0]
     
     # Check for a tie
     tie = True
@@ -156,10 +128,10 @@ def Main(bot):
     PrintBoard(board)
 
     while not finished: # Take turns until the game is over
-        for player in range(1, 3):
+        for player in [1, -1]:
             if player == 1:
                 board = Turn(board) # Player takes one turn
-            elif player == 2:
+            elif player == -1:
                 board = bot.Turn(bot, board)
             PrintBoard(board) # Print if neither victory nor tie are achieved
             result = CheckBoard(board) # Check the board for victory or tie
@@ -176,5 +148,5 @@ def Main(bot):
                 break
 
 if __name__ == "__main__":
-    bot = Simple
+    bot = Perfect
     Main(bot)
