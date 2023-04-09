@@ -8,22 +8,21 @@
 # O: 2
 
 from termcolor import colored
+import os
 
-def CheckBoard(board): # Check if the game is won or if it's a tie
+def CheckBoard(board): # Check if the game is won or tied
     # Check if the game is won
     possibleSolutions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
     for solution in possibleSolutions:
-        fields = []
+        fields = [] # For the three tiles in a solution, check what player occupies the tiles
         for field in solution:
             fields.append(board[field])
+        # If all three tiles in a solution are occupied by the same player, this player has won
         if len(list(dict.fromkeys(fields))) == 1 and fields[0] != 0:
             return 1
     
     # Check for a tie
-    tie = True
-    for field in board:
-        if field == 0:
-            tie = False
+    tie = not 0 in board # If there's no empty tile, the game is tied
     if tie:
         return 2
     return 0
@@ -32,13 +31,14 @@ def Turn(board, playerNum): # One player takes a turn and the board gets updated
     validTurn = False
     while not validTurn:
         field = int(input(f"Which field does the {playerNum}. player choose? "))
-        validTurn = validTurn = board[field] == 0
-    board[field] = playerNum
+        validTurn = validTurn = board[field] == 0 # Check if the tile is empty
+    board[field] = playerNum # Update the board
 
     return board
 
 def PrintBoard(board): # Print the board in a nice way
-    niceBoard = []
+    os.system('cls' if os.name == 'nt' else 'clear') # Clear the terminal
+    niceBoard = [] # Board with colored text
     for field in board:
         if field == 0:
             niceBoard.append("-")
@@ -52,14 +52,15 @@ def PrintBoard(board): # Print the board in a nice way
     print("")
 
 def Main():
+    # Generate the board and print it
     board = [0] * 9
     finished = False
     PrintBoard(board)
 
     while not finished: # Take turns until the game is over
-        for playerNum in range(1, 3): # The active player changes after each turn
-            board = Turn(board, playerNum) # Player takes one turn
-            PrintBoard(board) # Print if neither victory nor tie are achieved
+        for playerNum in range(1, 3): # Loop through each player
+            board = Turn(board, playerNum) # The player takes one turn
+            PrintBoard(board)
             result = CheckBoard(board) # Check the board for victory or tie
             if result == 1: # Victory
                 print(f"The winner is Player {playerNum}!")
@@ -71,4 +72,4 @@ def Main():
                 break
 
 if __name__ == "__main__":
-    Main()
+    Main() # Run the game
