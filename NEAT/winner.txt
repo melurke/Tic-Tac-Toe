@@ -1,0 +1,10 @@
+Key: 3787
+Fitness: -1
+Nodes:
+	0 DefaultNodeGene(key=0, bias=0.0051392625972457515, response=1.0, activation=tanh, aggregation=sum)
+Connections:
+	DefaultConnectionGene(key=(-9, 0), weight=-0.3952111747978174, enabled=True)
+	DefaultConnectionGene(key=(-8, 0), weight=-0.1750850553519055, enabled=True)
+	DefaultConnectionGene(key=(-5, 0), weight=-0.6236161231633011, enabled=True)
+	DefaultConnectionGene(key=(-4, 0), weight=-0.07167998343134363, enabled=True)
+	DefaultConnectionGene(key=(-1, 0), weight=3.9779217984485413, enabled=True)
