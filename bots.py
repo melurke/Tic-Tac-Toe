@@ -15,9 +15,9 @@ class Random: # Makes a random move
     def Turn(self, board):
         # Generate all of the empty tiles on the board
         emptyTiles = []
-        for tile in board:
+        for i, tile in enumerate(board):
             if tile == 0:
-                emptyTiles.append(tile)
+                emptyTiles.append(i)
         
         # Randomly choose an empty tile
         randomTile = random.choice(emptyTiles)
@@ -44,7 +44,7 @@ class Simple: # Wins if possible, tries to prevent the player from winning
         for tile in emptyTiles:
             newBoard = board.copy()
             newBoard[tile] = -1
-            if CheckBoard(newBoard) == 1: # If the move results in a win for the bot, make the move
+            if CheckBoard(newBoard) == -1: # If the move results in a win for the bot, make the move
                 board[tile] = -1
                 return board
             newBoard[tile] = 1
@@ -162,5 +162,8 @@ def Main(bot):
                 break
 
 if __name__ == "__main__":
-    bot = Simple # Choose which bot you want to play agains (Random, Simple, Perfect)
+    print("Bots:\nRandom -> 1\nSimple -> 2\nPerfect -> 3")
+    botInput = int(input("Which bot do you want to play against? ")) - 1
+    bots = [Random, Simple, Perfect]
+    bot = bots[botInput] # Choose which bot you want to play agains (Random, Simple, Perfect)
     Main(bot) # Run the game
