@@ -31,7 +31,7 @@ def Turn(board, playerNum): # One player takes a turn and the board gets updated
     validTurn = False
     while not validTurn:
         field = int(input(f"Which field does the {playerNum}. player choose? "))
-        validTurn = validTurn = board[field] == 0 # Check if the tile is empty
+        validTurn = board[field] == 0 # Check if the tile is empty
     board[field] = playerNum # Update the board
 
     return board
