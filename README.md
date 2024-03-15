@@ -9,11 +9,11 @@ In the normal version of this game, there is a 3x3 field where the players take 
 
 A typical board can look like this:
 
-"- | - | X"
+- | - | X
 
-"O | X | X"
+O | X | X
 
-"O | - | O"
+O | - | O
 
 If both players play perfectly from this point on, the game is a tie.
 
@@ -27,13 +27,13 @@ The rules are pretty much the same, but now to win one has to align n tiles.
 
 Example with 4x4:
 
-"X | - | - | O"
+X | - | - | O
 
-"O | X | O | -"
+O | X | O | -
 
-"- | X | O | -"
+- | X | O | -
 
-"- | - | X | -"
+- | - | X | -
 
 
 ## Bots
@@ -56,11 +56,11 @@ This bot can still be beat pretty easily with the right strategy, if there are t
 
 An example for this kind of situation can look like this:
 
-"X | - | -"
+X | - | -
 
-"- | X | -"
+- | X | -
 
-"X | O | O"
+X | O | O
 
 
 In this situation, the bot (O) can't do anything to stop the player (X) from winning in the next move.
