@@ -8,9 +8,9 @@ There are several little programs where you can play the game against another pl
 In the normal version of this game, there is a 3x3 field where the players take turns in chosing one field where they place their tile. Player 1 has an X and player 2 has an O. The first player to get three of their own tiles to align wins.
 A typical board can look like this:
 
-- | - | X
-O | X | X
-O | - | O
+"- | - | X"
+"O | X | X"
+"O | - | O"
 
 If both players play perfectly from this point on, the game is a tie.
 
@@ -23,10 +23,10 @@ The rules are pretty much the same, but now to win one has to align n tiles.
 
 Example with 4x4:
 
-X | - | - | O
-O | X | O | -
-- | X | O | -
-- | - | X | -
+"X | - | - | O"
+"O | X | O | -"
+"- | X | O | -"
+"- | - | X | -"
 
 ## Bots
 
@@ -44,9 +44,9 @@ And if you, the player, could win in the next move if the bot isn't careful, it 
 This bot can still be beat pretty easily with the right strategy, if there are two possible moves for the player to win, the bot can only prevent one of them, so you are still able to win.
 An example for this kind of situation can look like this:
 
-X | - | -
-- | X | -
-X | O | O
+"X | - | -"
+"- | X | -"
+"X | O | O"
 
 In this situation, the bot (O) can't do anything to stop the player (X) from winning in the next move.
 
